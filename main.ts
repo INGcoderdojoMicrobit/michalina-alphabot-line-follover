@@ -1,5 +1,6 @@
 input.onButtonPressed(Button.A, function () {
     doleft()
+    stop = 0
 })
 function doright () {
     AlphaBot2.RunDelay(Dir.turnRight, predkosc, czas)
@@ -7,6 +8,9 @@ function doright () {
 input.onButtonPressed(Button.AB, function () {
     doforward()
 })
+function dobackward () {
+    AlphaBot2.RunDelay(Dir.backward, predkosc, czas)
+}
 input.onButtonPressed(Button.B, function () {
     doright()
 })
@@ -22,13 +26,15 @@ let a3 = 0
 let a2 = 0
 let a1 = 0
 let item: number[] = []
+let stop = 0
 let predkosc = 0
 let czas = 0
 AlphaBot2.SensorCalibrated()
 let max = AlphaBot2.ReadSensorMin()
 let max_linia = 200
 czas = 0.1
-predkosc = 50
+predkosc = 40
+stop = 1
 basic.forever(function () {
     item = AlphaBot2.readCalibrated()
     if (Math.round(item[0]) < max_linia) {
@@ -66,11 +72,17 @@ basic.forever(function () {
         a5 = 0
         led.unplot(4, 0)
     }
-    basic.pause(500)
-    if (a1 == 0 && a2 == 0 && a3 == 1 && a4 == 0 && a5 == 0 || a1 == 0 && a2 == 1 && a3 == 1 && a4 == 1 && a5 == 0 ) {
+    basic.pause(10)
+    if (a1 == 0 && a2 == 0 && a3 == 1 && a4 == 0 && a5 == 0 || a1 == 0 && a2 == 1 && a3 == 1 && a4 == 1 && a5 == 0 || a1 == 1 && a2 == 1 && a3 == 1 && a4 == 1 && a5 == 1) {
         doforward()
     }
     if (a1 == 0 && a2 == 1 && a3 == 0 && a4 == 0 && a5 == 0 || a1 == 0 && a2 == 1 && a3 == 1 && a4 == 0 && a5 == 0 || a1 == 1 && a2 == 1 && a3 == 1 && a4 == 0 && a5 == 0 || a1 == 1 && a2 == 0 && a3 == 0 && a4 == 0 && a5 == 0 || a1 == 1 && a2 == 1 && a3 == 0 && a4 == 0 && a5 == 0) {
         doleft()
+    }
+    if (a1 == 0 && a2 == 0 && a3 == 0 && a4 == 1 && a5 == 0 || a1 == 0 && a2 == 0 && a3 == 1 && a4 == 1 && a5 == 0 || a1 == 0 && a2 == 0 && a3 == 1 && a4 == 1 && a5 == 1 || a1 == 0 && a2 == 0 && a3 == 0 && a4 == 0 && a5 == 1 || a1 == 0 && a2 == 0 && a3 == 0 && a4 == 1 && a5 == 1) {
+        doright()
+    }
+    if (a1 == 0 && a2 == 0 && a3 == 0 && a4 == 0 && a5 == 0) {
+        dobackward()
     }
 })
